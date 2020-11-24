@@ -1,0 +1,15 @@
+@import './normalize.css';
+/* 获取根元素HTML */
+:root {
+    --iwhaleCloudBule: #4477ee;
+    --color-text: #666;
+    --color-high-text: #ff5777;
+    --color-tint: rgb(221, 98, 98);
+    --color-background: #fff;
+    --font-size: 14px;
+    --line-height: 1.5;
+    --light-pink-gbc:#ff5c5c1c;
+}
+.theBule{
+    color: var(--iwhaleCloudBule);
+}
