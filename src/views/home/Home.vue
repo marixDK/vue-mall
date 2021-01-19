@@ -7,7 +7,8 @@
     <home-swiper :banner="banner"></home-swiper>
     <home-recommend-view :recommends="recommends"></home-recommend-view>
     <feature-view></feature-view>
-    <tab-control :titles="titles" class="tab-control"></tab-control>
+    <tab-control :titles="titles"></tab-control>
+    <goods-list :goods="goods"></goods-list>
   </div>
 </template>
 
@@ -16,7 +17,8 @@ import NavBar from "components/common/navBar/NavBar";
 import HomeSwiper from "./childComps/HomeSwiper";
 import HomeRecommendView from "./childComps/HomeRecommondView";
 import FeatureView from "./childComps/FeatureView";
-import TabControl from "components/content/tabControl/TabControl"
+import TabControl from "components/content/tabControl/TabControl";
+import GoodsList from 'components/content/goods/GoodsList';
 
 import { getHomeMultiData,
          getHomeGoods } from "network/home";
@@ -31,14 +33,16 @@ export default {
       titles: ['流行', '新款', '精选'],
       goods: {
         pop : {page: 0, list: []},
-        news : {page: 0, list: []},
+        new : {page: 0, list: []},
         sell : {page: 0, list: []},
       }
     };
   },
   created() {
     this.getHomeMultiDataAction();
-    this.getHomeGoodsAction();
+    this.getHomeGoodsAction('pop');
+    this.getHomeGoodsAction('new');
+    this.getHomeGoodsAction('sell');
   },
   methods: {
     getHomeMultiDataAction(){
@@ -51,8 +55,10 @@ export default {
     },
 
     getHomeGoodsAction(type,page){
-      getHomeGoods(type || 'pop',page || 1).then(res => {
-      console.log(res);
+      getHomeGoods(type,page || 1).then(res => {
+        // console.log(res);
+      this.goods[type].list.push(...res.data.data.list);
+      this.goods[type].page = page || (this.goods[type].page += 1);
     });
     }
   },
@@ -61,7 +67,8 @@ export default {
     HomeSwiper,
     HomeRecommendView,
     FeatureView,
-    TabControl
+    TabControl,
+    GoodsList
   },
 };
 </script>
